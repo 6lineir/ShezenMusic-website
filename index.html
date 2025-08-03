@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./assest/musical-note.png">
+    <title>ShezenMusic - Official Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Risque&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps:wght@400;700&display=swap"
+        rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --red: #ff0000;
+            --orange: #ff6b00;
+            --dark-gray: #1a1a1a;
+            --light-gray: #333333;
+        }
+
+        body {
+            /* font-family: 'Montserrat', sans-serif; */
+            font-family: "Risque", "Oleo Script Swash Caps", system-ui;
+            font-weight: 400;
+            font-style: normal;
+            background-color: var(--black);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .links {
+            color: var(--orange);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* Hero Section with Video Slider */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .video-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .video-slide.active {
+            opacity: 1;
+        }
+
+        .video-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(255, 0, 0, 0.1) 100%);
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            z-index: 2;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .hero-content h1 span {
+            color: var(--red);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--red), var(--orange));
+            color: white;
+            padding: 18px 45px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Music Section */
+        .music-section {
+            padding: 120px 5%;
+            background: var(--dark-gray);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 80px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .section-title span {
+            color: var(--red);
+        }
+
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .album-card {
+            background: linear-gradient(145deg, var(--light-gray), #2a2a2a);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(255, 0, 0, 0.2);
+        }
+
+        .album-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .album-card:hover .album-image {
+            transform: scale(1.05);
+        }
+
+        .album-info {
+            padding: 30px;
+        }
+
+        .album-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--orange);
+            font-weight: 700;
+        }
+
+        .album-info p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .play-button {
+            background: linear-gradient(45deg, var(--red), var(--orange));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .play-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        /* Songs Section */
+        .songs-section {
+            padding: 120px 5%;
+            background: var(--black);
+        }
+
+        .songs-list {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            margin-bottom: 20px;
+            background: linear-gradient(145deg, var(--light-gray), #2a2a2a);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .song-item:hover {
+            transform: translateX(15px);
+            background: linear-gradient(90deg, var(--light-gray), var(--dark-gray));
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+        }
+
+        .song-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--red), var(--orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-info h4 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .song-info p {
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        .song-duration {
+            color: var(--orange);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* SoundCloud Player Section */
+        .soundcloud-section {
+            padding: 100px 5%;
+            background: linear-gradient(135deg, var(--dark-gray), var(--black));
+        }
+
+        .soundcloud-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .soundcloud-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--orange);
+        }
+
+        .soundcloud-embed {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .soundcloud-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .soundcloud-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .soundcloud-item:hover {
+            background: rgba(255, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .soundcloud-item h4 {
+            color: var(--orange);
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-gray), #000000);
+            padding: 80px 5% 40px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--light-gray), #2a2a2a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(45deg, var(--red), var(--orange));
+            transform: translateY(-10px) rotate(10deg);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+
+            .albums-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-content {
+                left: 5%;
+                right: 5%;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .song-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .song-number {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .album-info {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .album-card {
+                margin: 0 15px;
+            }
+
+            .soundcloud-container {
+                padding: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--red), var(--orange));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--red);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="logo">Shezen<span>Music</span></a>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#music">Music</a>
+            <a href="#albums">Albums</a>
+            <a href="#soundcloud">SoundCloud</a>
+            <a href="#contact">Contact</a>
+            <a href="#contact">En</a>
+        </div>
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Video Slider -->
+    <section class="hero" id="home">
+        <div class="video-slider">
+            <div class="video-slide active">
+                <video autoplay muted loop>
+                    <source src="./assest/101433-video-720.mp4" type="video/mp4">
+                </video>
+                <div class="overlay"></div>
+            </div>
+            <div class="video-slide">
+                <video autoplay muted loop>
+                    <source src="./assest/mixkit-arm-of-a-person-with-an-image-projected-on-it-3908-hd-ready.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="overlay"></div>
+            </div>
+            <div class="video-slide">
+                <video autoplay muted loop>
+                    <source src="./assest/101440-video-720.mp4" type="video/mp4">
+                </video>
+                <div class="overlay"></div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1 class="animate-on-scroll">Shezen<span>Music</span></h1>
+            <p class="animate-on-scroll">
+                Rap & Trap Artist | My trap is more than just a style. | Every song of mine is
+                a flame of revolution.
+            </p>
+            <a class="cta-button animate-on-scroll" href="https://soundcloud.com/shezen-t" target="_blank">
+                Stream Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Music Section -->
+    <section class="music-section" id="music">
+        <h2 class="section-title animate-on-scroll">Featured <span>Albums</span></h2>
+        <div class="albums-grid">
+            <div class="album-card animate-on-scroll">
+                <img src="https://i.ytimg.com/vi/ftnCpkvMpCM/oardefault.jpg?sqp=-oaymwEoCJUDENAFSFqQAgHyq4qpAxcIARUAAIhC2AEB4gEKCBgQAhgGOAFAAQ==&rs=AOn4CLBvSTtCX1bNRVss6hCEejQtRlhLcA"
+                    alt="FERRARI freestyle " class="album-image">
+                <div class="album-info">
+                    <h3>FERRARI freestyle </h3>
+                    <p>2025 • #rap #freestyle #freestylerap #newmusic #rapbattle • Trap/Hip-Hop</p>
+                    <a href="https://www.youtube.com/shorts/ftnCpkvMpCM" target="_blank">
+                        <button class="play-button">Play in Youtube</button>
+                    </a>
+                </div>
+            </div>
+            <div class="album-card animate-on-scroll">
+                <img src="https://i1.sndcdn.com/artworks-nI90JNbNEXr7rN8w-mwfhzw-t200x200.jpg" alt="SHEZENI EP.1"
+                    class="album-image">
+                <div class="album-info">
+                    <h3>SHEZENI EP.1</h3>
+                    <p>2025 • 6 Tracks • Rap/Trap</p>
+                    <a href="https://soundcloud.com/shezen-t/sets/kine-mixtype" target="_blank">
+                        <button class="play-button">Play in SoundCloud</button>
+                    </a>
+                </div>
+            </div>
+            <div class="album-card animate-on-scroll">
+
+                <img src="https://i1.sndcdn.com/avatars-S0TWxNFpy5IqnX8X-C6cspQ-t500x500.jpg" alt="Trap Soul"
+                    class="album-image">
+                <div class="album-info">
+                    <h3>Trap Soul</h3>
+                    <p>2021 • 8 Tracks • Hip-Hop/R&B</p>
+                    <button class="play-button">Soon</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Songs Section -->
+    <section class="songs-section" id="albums">
+        <h2 class="section-title animate-on-scroll">Popular <span>Songs</span></h2>
+        <div class="songs-list">
+            <div class="song-item animate-on-scroll">
+                <div class="song-number">1</div>
+                <iframe width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2139161796&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+
+            </div>
+            <div class="song-item animate-on-scroll">
+                <div class="song-number">2</div>
+                <iframe width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2109211506&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+
+            </div>
+            <div class="song-item animate-on-scroll">
+                <div class="song-number">3</div>
+                <iframe width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2139161796&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+
+            </div>
+            <div class="song-item animate-on-scroll">
+                <div class="song-number">4</div>
+                <iframe width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2085707484&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+
+            </div>
+            <div class="song-item animate-on-scroll">
+                <div class="song-number">5</div>
+                <iframe width="100%" height="100" scrolling="no" frameborder="no" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2139161796&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SoundCloud Section -->
+    <section class="soundcloud-section" id="soundcloud">
+        <div class="soundcloud-container">
+            <h2 class="soundcloud-title">SoundCloud <span>Player</span></h2>
+            <iframe class="soundcloud-embed" width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2139161796&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+
+
+            <h3 style="text-align: center; margin: 30px 0; color: var(--orange);">Featured Tracks</h3>
+            <div class="soundcloud-list">
+                <div class="soundcloud-item">
+                    <h4>Dark Nights (Official Audio)</h4>
+                    <p>Street Dreams Album • 3.2M Plays</p>
+                </div>
+                <div class="soundcloud-item">
+                    <h4>Hustle Hard (Prod. by BeatKing)</h4>
+                    <p>Midnight Vibes Album • 2.8M Plays</p>
+                </div>
+                <div class="soundcloud-item">
+                    <h4>Neon Lights (Remix)</h4>
+                    <p>Trap Soul Album • 1.9M Plays</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="social-links">
+            <a href="https://soundcloud.com/shezen-t" target="_blank"><i class="fab fa-soundcloud"></i></a>
+            <a href="#"><i class="fab fa-spotify" target="_blank"></i></a>
+            <a href="https://www.youtube.com/@Shezenmusic"><i class="fab fa-youtube" target="_blank"></i></a>
+            <a href="https://instagram.com/Shezenmusic"><i class="fab fa-instagram" target="_blank"></i></a>
+            <a href="https://t.me/Shezenmusic"><i class="fab fa-telegram" target="_blank"></i></a>
+        </div>
+        <p class="copyright">&copy; <span id="year"></span> ShezenMusic. All Rights Reserved.</p>
+        <p>Designed by <a class="links" href="https://github.com/6lineir" target="_blank">❤️ Developer Friend</a>
+        </p>
+
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        // Video Slider Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.video-slide');
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 6000);
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', function () {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '80px';
+            navLinks.style.left = '0';
+            navLinks.style.width = '100%';
+            navLinks.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+            navLinks.style.padding = '20px';
+            navLinks.style.backdropFilter = 'blur(10px)';
+        });
+
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+
+                if (elementPosition < screenPosition) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Play button functionality
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const albumTitle = this.parentElement.querySelector('h3').textContent;
+                alert(`Now playing: ${albumTitle}\nStreaming on all platforms!`);
+            });
+        });
+
+        // Song item click functionality
+        document.querySelectorAll('.song-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const songTitle = this.querySelector('h4').textContent;
+                alert(`Now playing: ${songTitle}\nAvailable on SoundCloud and all streaming platforms!`);
+            });
+        });
+    </script>
+</body>
+
+</html>
